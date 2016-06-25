@@ -32,7 +32,7 @@ sed -i '$ i\echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6' /etc/rc.local
 apt-get update;apt-get -y install wget curl;
 
 # set time GMT +7
-ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
+ln -fs /usr/share/zoneinfo/Asia/Singapore /etc/localtime
 
 # set locale
 sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
@@ -59,8 +59,8 @@ apt-get -y install nginx php5-fpm php5-cli
 
 # install essential package
 echo "mrtg mrtg/conf_mods boolean true" | debconf-set-selections
-#apt-get -y install bmon iftop htop nmap axel nano iptables traceroute sysv-rc-conf dnsutils bc nethogs openvpn vnstat less screen psmisc apt-file whois ptunnel ngrep mtr git zsh mrtg snmp snmpd snmp-mibs-downloader unzip unrar rsyslog debsums rkhunter
-apt-get -y install bmon iftop htop nmap axel nano iptables traceroute sysv-rc-conf dnsutils bc nethogs vnstat less screen psmisc apt-file whois ptunnel ngrep mtr git zsh mrtg snmp snmpd snmp-mibs-downloader unzip unrar rsyslog debsums rkhunter
+apt-get -y install bmon iftop htop nmap axel nano iptables traceroute sysv-rc-conf dnsutils bc nethogs openvpn vnstat less screen psmisc apt-file whois ptunnel ngrep mtr git zsh mrtg snmp snmpd snmp-mibs-downloader unzip unrar rsyslog debsums rkhunter
+#apt-get -y install bmon iftop htop nmap axel nano iptables traceroute sysv-rc-conf dnsutils bc nethogs vnstat less screen psmisc apt-file whois ptunnel ngrep mtr git zsh mrtg snmp snmpd snmp-mibs-downloader unzip unrar rsyslog debsums rkhunter
 apt-get -y install build-essential
 
 # disable exim
@@ -88,7 +88,7 @@ rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
 wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/ForNesiaFreak/FNS_Debian7/fornesia.com/null/nginx.conf"
 mkdir -p /home/vps/public_html
-echo "<pre>www.fornesia.com</pre>" > /home/vps/public_html/index.html
+echo "<pre>Setup by JohnKeR | johnker.cf | @johnker | 010 304 9919</pre>" > /home/vps/public_html/index.html
 echo "<?php phpinfo(); ?>" > /home/vps/public_html/info.php
 wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/ForNesiaFreak/FNS_Debian7/fornesia.com/null/vps.conf"
 sed -i 's/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g' /etc/php5/fpm/pool.d/www.conf
@@ -96,43 +96,33 @@ service php5-fpm restart
 service nginx restart
 
 # install openvpn
-#wget -O /etc/openvpn/openvpn.tar "https://github.com/ForNesiaFreak/FNS/raw/master/sett/openvpn-debian.tar"
-#cd /etc/openvpn/
-#tar xf openvpn.tar
-#wget -O /etc/openvpn/1194.conf "https://raw.githubusercontent.com/ForNesiaFreak/FNS_Debian7/fornesia.com/null/1194.conf"
-#service openvpn restart
-#sysctl -w net.ipv4.ip_forward=1
-#sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
-#wget -O /etc/iptables.up.rules "https://raw.githubusercontent.com/ForNesiaFreak/FNS_Debian7/fornesia.com/null/iptables.up.rules"
-#sed -i '$ i\iptables-restore < /etc/iptables.up.rules' /etc/rc.local
-#sed -i $MYIP2 /etc/iptables.up.rules;
-#iptables-restore < /etc/iptables.up.rules
-#service openvpn restart
+wget -O /etc/openvpn/openvpn.tar "https://github.com/ForNesiaFreak/FNS/raw/master/sett/openvpn-debian.tar"
+cd /etc/openvpn/
+tar xf openvpn.tar
+wget -O /etc/openvpn/1194.conf "https://raw.githubusercontent.com/ForNesiaFreak/FNS_Debian7/fornesia.com/null/1194.conf"
+service openvpn restart
+sysctl -w net.ipv4.ip_forward=1
+sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
+wget -O /etc/iptables.up.rules "https://raw.githubusercontent.com/ForNesiaFreak/FNS_Debian7/fornesia.com/null/iptables.up.rules"
+sed -i '$ i\iptables-restore < /etc/iptables.up.rules' /etc/rc.local
+sed -i $MYIP2 /etc/iptables.up.rules;
+iptables-restore < /etc/iptables.up.rules
+service openvpn restart
 
 # configure openvpn client config
-#cd /etc/openvpn/
-#wget -O /etc/openvpn/1194-client.ovpn "https://raw.githubusercontent.com/ForNesiaFreak/FNS_Debian7/fornesia.com/null/1194-client.conf"
+cd /etc/openvpn/
+wget -O /etc/openvpn/1194-client.ovpn "https://raw.githubusercontent.com/ForNesiaFreak/FNS_Debian7/fornesia.com/null/1194-client.conf"
 #sed -i $MYIP2 /etc/openvpn/1194-client.ovpn;
 PASS=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 15 | head -n 1`;
-useradd -M -s /bin/false fornesia
-echo "fornesia:$PASS" | chpasswd
-#echo "username" >> pass.txt
-#echo "password" >> pass.txt
-#tar cf client.tar 1194-client.ovpn pass.txt
-#cp client.tar /home/vps/public_html/
-#cp 1194-client.ovpn client.ovpn
-#cp client.ovpn /home/vps/public_html/
+useradd -M -s /bin/false johnker
+echo "johnker:$PASS" | chpasswd
+echo "username" >> pass.txt
+echo "password" >> pass.txt
+tar cf client.tar 1194-client.ovpn pass.txt
+cp client.tar /home/vps/public_html/
+cp 1194-client.ovpn client.ovpn
+cp client.ovpn /home/vps/public_html/
 cd
-
-# install badvpn
-wget -O /usr/bin/badvpn-udpgw "https://github.com/ForNesiaFreak/FNS/raw/master/sett/badvpn-udpgw"
-if [ "$OS" == "x86_64" ]; then
-  wget -O /usr/bin/badvpn-udpgw "https://github.com/ForNesiaFreak/FNS/raw/master/sett/badvpn-udpgw64"
-fi
-sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local
-chmod +x /usr/bin/badvpn-udpgw
-screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300
-
 
 # install mrtg
 wget -O /etc/snmp/snmpd.conf "https://raw.githubusercontent.com/ForNesiaFreak/FNS_Debian7/fornesia.com/null/snmpd.conf"
@@ -270,7 +260,7 @@ echo "OpenSSH  : 22, 143"  | tee -a log-install.txt
 echo "Dropbear : 443, 110, 109"  | tee -a log-install.txt
 echo "Squid3    : 80, 8080 (limit to IP SSH)"  | tee -a log-install.txt
 #echo "OpenVPN  : TCP 1194 (client config : http://$MYIP:81/client.ovpn)"  | tee -a log-install.txt
-echo "badvpn   : badvpn-udpgw port 7300"  | tee -a log-install.txt
+#echo "badvpn   : badvpn-udpgw port 7300"  | tee -a log-install.txt
 #echo "PPTP VPN  : Create User via Putty (echo "username pptpd password *" >> /etc/ppp/chap-secrets)"  | tee -a log-install.txt
 echo "nginx    : 81"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
@@ -294,7 +284,7 @@ echo "----------"  | tee -a log-install.txt
 echo "Webmin   : http://$MYIP:10000/"  | tee -a log-install.txt
 echo "vnstat   : http://$MYIP:81/vnstat/ (Cek Bandwith)"  | tee -a log-install.txt
 echo "MRTG     : http://$MYIP:81/mrtg/"  | tee -a log-install.txt
-echo "Timezone : Asia/Jakarta (GMT +7)"  | tee -a log-install.txt
+echo "Timezone : Asia/Singapore (GMT +8)"  | tee -a log-install.txt
 echo "Fail2Ban : [on]"  | tee -a log-install.txt
 echo "IPv6     : [off]"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
@@ -302,7 +292,7 @@ echo "Auto Script Installer Vps - www.fornesia.com"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "Log Instalasi --> /root/log-install.txt"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
-echo "VPS AUTO REBOOT TIAP 12 JAM, SILAHKAN REBOOT VPS ANDA !"  | tee -a log-install.txt
+echo "VPS AUTO REBOOT TIAP 12 JAM, SILAKAN REBOOT VPS ANDA !"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "==========================================="  | tee -a log-install.txt
 cd
